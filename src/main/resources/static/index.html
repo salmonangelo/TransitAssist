@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TransitAssist &mdash; Accessible Transit Assistance Booking</title>
+    <meta name="description" content="Campus accessibility transit assistance booking and helper dispatch dashboard for persons with disabilities.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Shell Layout -->
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <!-- Custom Accessible Transit SVG -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="4" r="2"></circle>
+                            <path d="M5 21v-4a7 7 0 0 1 7-7h1a4 4 0 0 1 4 4v7"></path>
+                            <path d="M16 11l3 3-3 3"></path>
+                            <circle cx="8" cy="18" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">TransitAssist</span>
+                        <span class="brand-subtitle">Accessible Booking</span>
+                    </div>
+                </div>
+                <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close navigation sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <div class="nav-group-label">OPERATIONS</div>
+                <button class="nav-item active" data-section="dashboard">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+                        <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+                        <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+
+                <button class="nav-item" data-section="requests">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <span>Requests</span>
+                    <span class="nav-badge" id="nav-pending-badge">0</span>
+                </button>
+
+                <button class="nav-item" data-section="new-request">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                    <span>New Request</span>
+                </button>
+
+                <div class="nav-group-label">RESOURCES</div>
+                <button class="nav-item" data-section="helpers">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <span>Helpers</span>
+                </button>
+
+                <button class="nav-item" data-section="workload">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span>Workload Schedule</span>
+                </button>
+
+                <button class="nav-item" data-section="users">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="7" r="4"></circle>
+                        <path d="M5.5 21a8.5 8.5 0 0 1 13 0"></path>
+                    </svg>
+                    <span>Users & Staff</span>
+                </button>
+
+                <div class="nav-group-label">DEVELOPER & DOCS</div>
+                <button class="nav-item" data-section="api-docs">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"></polyline>
+                        <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <span>API Documentation</span>
+                </button>
+                <a href="/swagger-ui.html" target="_blank" rel="noopener" class="nav-item nav-link-external">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    <span>Open Swagger UI</span>
+                </a>
+            </nav>
+
+            <!-- Sidebar Footer: Status & Heartbeat -->
+            <div class="sidebar-footer">
+                <div class="system-status-card">
+                    <div class="status-row">
+                        <span class="status-indicator online"></span>
+                        <span class="status-label">Spring Boot Backend</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-indicator online"></span>
+                        <span class="status-label">MySQL Database</span>
+                    </div>
+                    <div class="status-time" id="sidebar-live-clock">--:--:--</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-wrapper">
+            <!-- Top Header Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle-btn" id="menu-toggle-btn" aria-label="Toggle Navigation Menu">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="header-titles">
+                        <h1 class="page-title" id="page-title">Dashboard</h1>
+                        <p class="page-subtitle" id="page-subtitle">Real-time overview of campus accessibility transit requests</p>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="header-search-box">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="global-search" placeholder="Search requests, users, routes..." aria-label="Search">
+                    </div>
+
+                    <div class="user-profile-badge">
+                        <div class="avatar">AD</div>
+                        <div class="user-meta">
+                            <span class="user-name">Campus Admin</span>
+                            <span class="user-role">Transportation Dept</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Page Container -->
+            <main class="content-container">
+
+                <!-- 1. DASHBOARD SECTION -->
+                <section id="dashboard" class="panel-section active">
+                    <!-- Hero Welcome Banner -->
+                    <div class="welcome-card">
+                        <div class="welcome-content">
+                            <div class="welcome-badge">
+                                <span class="badge-dot"></span> Campus Transit Live
+                            </div>
+                            <h2>Welcome to TransitAssist Dashboard</h2>
+                            <p>Manage, assign, and track wheelchair, escort, and mobility support requests across university campus routes.</p>
+                            <div class="welcome-actions">
+                                <button class="btn btn-primary" onclick="showSection('new-request')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Create New Request
+                                </button>
+                                <button class="btn btn-secondary" onclick="showSection('workload')">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                    View Helper Workload
+                                </button>
+                            </div>
+                        </div>
+                        <div class="welcome-visual">
+                            <div class="hero-stats-badge">
+                                <div class="stat-icon-wrap primary">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 14 14"></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="badge-num" id="dash-active-rate">100%</span>
+                                    <span class="badge-sub">Dispatch Health</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Statistics KPI Grid -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card" onclick="showSection('users')">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Total Users</span>
+                                <div class="kpi-icon-wrap info">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-users">0</div>
+                            <div class="kpi-footer">
+                                <span class="kpi-trend positive">&#x2197; Registered</span>
+                                <span class="kpi-meta">Students & Faculty</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" onclick="showSection('helpers')">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Active Helpers</span>
+                                <div class="kpi-icon-wrap success">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-helpers">0</div>
+                            <div class="kpi-footer">
+                                <span class="kpi-trend positive" id="stat-available-helpers">&#x25CF; 0 Available</span>
+                                <span class="kpi-meta">Ready for dispatch</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" onclick="filterRequestsByStatus('REQUESTED')">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Pending Requests</span>
+                                <div class="kpi-icon-wrap warning">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-requested">0</div>
+                            <div class="kpi-footer">
+                                <span class="kpi-trend warning">&#x23F1; Needs Assignment</span>
+                                <span class="kpi-meta">Awaiting helper</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" onclick="filterRequestsByStatus('ASSIGNED')">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Assigned Requests</span>
+                                <div class="kpi-icon-wrap primary">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-assigned">0</div>
+                            <div class="kpi-footer">
+                                <span class="kpi-trend primary">&#x25CF; In Progress</span>
+                                <span class="kpi-meta">Helpers assigned</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" onclick="filterRequestsByStatus('COMPLETED')">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Completed Trips</span>
+                                <div class="kpi-icon-wrap success">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-completed">0</div>
+                            <div class="kpi-footer">
+                                <span class="kpi-trend positive">&#x2713; Fulfilled</span>
+                                <span class="kpi-meta">Successful trips</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card" onclick="filterRequestsByStatus('CANCELLED')">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Cancelled</span>
+                                <div class="kpi-icon-wrap danger">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-cancelled">0</div>
+                            <div class="kpi-footer">
+                                <span class="kpi-trend neutral">&#x2715; Inactive</span>
+                                <span class="kpi-meta">Cancelled requests</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Breakdown & Today's Schedule Overview -->
+                    <div class="dashboard-grid-2col">
+                        <!-- Request Status Distribution -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="card-title">Request Status Distribution</h3>
+                                    <p class="card-subtitle">Real-time status ratio of all campus transit bookings</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="status-bars-container" id="status-bars-container">
+                                    <!-- Dynamic CSS Bars populated by JavaScript -->
+                                </div>
+                                <div class="chart-legend" id="status-chart-legend">
+                                    <!-- Legend items -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Assistance Types Breakdown -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="card-title">Assistance Types Breakdown</h3>
+                                    <p class="card-subtitle">Demand distribution by accessibility service required</p>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="types-stat-list" id="types-breakdown-list">
+                                    <!-- Dynamic types cards populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Activity Table Preview -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Today's & Upcoming Activity</h3>
+                                <p class="card-subtitle">Recent assistance requests scheduled for today and tomorrow</p>
+                            </div>
+                            <button class="btn btn-outline btn-sm" onclick="showSection('requests')">
+                                View All Requests &rarr;
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Requester</th>
+                                            <th>Route</th>
+                                            <th>Date & Time</th>
+                                            <th>Assistance Type</th>
+                                            <th>Assigned Helper</th>
+                                            <th>Status</th>
+                                            <th class="text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dash-recent-table-body">
+                                        <tr><td colspan="8" class="text-center text-muted py-4">Loading requests...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. REQUESTS SECTION -->
+                <section id="requests" class="panel-section">
+                    <div class="section-toolbar-card">
+                        <div class="toolbar-row">
+                            <div class="toolbar-search">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <input type="text" id="requests-search" placeholder="Search by requester, route, helper, notes..." aria-label="Search requests">
+                            </div>
+
+                            <div class="toolbar-filters">
+                                <div class="filter-group">
+                                    <label for="status-filter">Status</label>
+                                    <select id="status-filter" class="form-select">
+                                        <option value="">All Statuses</option>
+                                        <option value="REQUESTED">REQUESTED</option>
+                                        <option value="ASSIGNED">ASSIGNED</option>
+                                        <option value="COMPLETED">COMPLETED</option>
+                                        <option value="CANCELLED">CANCELLED</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="type-filter">Type</label>
+                                    <select id="type-filter" class="form-select">
+                                        <option value="">All Types</option>
+                                        <option value="WHEELCHAIR">Wheelchair</option>
+                                        <option value="ESCORT">Escort</option>
+                                        <option value="MOBILITY_SUPPORT">Mobility Support</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-group">
+                                    <label for="date-filter">Trip Date</label>
+                                    <input type="date" id="date-filter" class="form-input">
+                                </div>
+
+                                <button class="btn btn-outline" id="clear-filters-btn" title="Reset all filters">
+                                    Clear
+                                </button>
+                                <button class="btn btn-outline" id="refresh-requests-btn" title="Reload requests from server">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="23 4 23 10 17 10"></polyline>
+                                        <polyline points="1 20 1 14 7 14"></polyline>
+                                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                                    </svg>
+                                    Refresh
+                                </button>
+                                <button class="btn btn-primary" onclick="showSection('new-request')">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    New Request
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Requests Table Card -->
+                    <div class="card mt-3">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 70px;">ID</th>
+                                            <th>Requester</th>
+                                            <th>Route</th>
+                                            <th>Trip Date & Time</th>
+                                            <th>Type</th>
+                                            <th>Helper</th>
+                                            <th>Status</th>
+                                            <th style="min-width: 240px;" class="text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="requests-body">
+                                        <!-- Populated via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Empty State Container -->
+                            <div id="requests-empty-state" class="empty-state hidden">
+                                <div class="empty-icon">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                                    </svg>
+                                </div>
+                                <h3>No Assistance Requests Found</h3>
+                                <p class="text-muted">No requests matched your filter criteria or no requests have been submitted yet.</p>
+                                <button class="btn btn-primary mt-3" onclick="showSection('new-request')">
+                                    Create First Request
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. NEW REQUEST SECTION -->
+                <section id="new-request" class="panel-section">
+                    <div class="form-layout-container">
+                        <div class="form-card">
+                            <div class="form-card-header">
+                                <div class="step-badge">New Booking</div>
+                                <h2>Book Accessibility Transit Assistance</h2>
+                                <p class="text-muted">Submit an advance campus transit assistance request for a student, faculty member, or campus visitor.</p>
+                            </div>
+
+                            <form id="request-form" novalidate>
+                                <!-- Section 1: Requester Details -->
+                                <div class="form-section-block">
+                                    <div class="section-title-row">
+                                        <div class="section-step-num">1</div>
+                                        <div>
+                                            <h4>Requester Information</h4>
+                                            <p class="section-hint">Select the registered campus user needing assistance</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-field full-width">
+                                            <label for="req-user">Campus User <span class="required">*</span></label>
+                                            <select id="req-user" class="form-select" required>
+                                                <!-- Dynamic user options -->
+                                            </select>
+                                            <small class="field-help" id="req-user-hint">Only active registered users can create assistance requests.</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 2: Assistance Type -->
+                                <div class="form-section-block">
+                                    <div class="section-title-row">
+                                        <div class="section-step-num">2</div>
+                                        <div>
+                                            <h4>Assistance Requirements</h4>
+                                            <p class="section-hint">Choose the primary accessibility support service required</p>
+                                        </div>
+                                    </div>
+                                    <div class="assistance-type-selector">
+                                        <label class="type-radio-card active">
+                                            <input type="radio" name="assistanceType" value="WHEELCHAIR" checked>
+                                            <div class="type-card-body">
+                                                <div class="type-icon primary">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <circle cx="12" cy="4" r="2"></circle>
+                                                        <path d="M5 21v-4a7 7 0 0 1 7-7h1a4 4 0 0 1 4 4v7"></path>
+                                                        <circle cx="8" cy="18" r="3"></circle>
+                                                    </svg>
+                                                </div>
+                                                <div class="type-title">Wheelchair</div>
+                                                <div class="type-desc">Manual/electric wheelchair transit assistance &amp; ramp navigation</div>
+                                            </div>
+                                        </label>
+
+                                        <label class="type-radio-card">
+                                            <input type="radio" name="assistanceType" value="ESCORT">
+                                            <div class="type-card-body">
+                                                <div class="type-icon info">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                        <circle cx="9" cy="7" r="4"></circle>
+                                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="type-title">Escort Support</div>
+                                                <div class="type-desc">Personal guiding escort for visually impaired or orientation support</div>
+                                            </div>
+                                        </label>
+
+                                        <label class="type-radio-card">
+                                            <input type="radio" name="assistanceType" value="MOBILITY_SUPPORT">
+                                            <div class="type-card-body">
+                                                <div class="type-icon success">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+                                                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+                                                        <line x1="6" y1="1" x2="6" y2="4"></line>
+                                                        <line x1="10" y1="1" x2="10" y2="4"></line>
+                                                        <line x1="14" y1="1" x2="14" y2="4"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="type-title">Mobility Support</div>
+                                                <div class="type-desc">Walking aid, crutches, bag carriage &amp; physical movement assistance</div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Route & Schedule -->
+                                <div class="form-section-block">
+                                    <div class="section-title-row">
+                                        <div class="section-step-num">3</div>
+                                        <div>
+                                            <h4>Trip Route &amp; Schedule</h4>
+                                            <p class="section-hint">Specify departure, destination, and reservation date/time</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Quick Location Preset Chips -->
+                                    <div class="presets-row">
+                                        <span class="presets-label">Popular Spots:</span>
+                                        <div class="preset-chips" id="preset-chips">
+                                            <button type="button" class="chip" onclick="setQuickLocation('Main Gate', 'Science Block')">Main Gate &rarr; Science Block</button>
+                                            <button type="button" class="chip" onclick="setQuickLocation('Hostel A', 'Library')">Hostel A &rarr; Library</button>
+                                            <button type="button" class="chip" onclick="setQuickLocation('Admin Block', 'Cafeteria')">Admin &rarr; Cafeteria</button>
+                                            <button type="button" class="chip" onclick="setQuickLocation('Medical Centre', 'Main Gate')">Medical &rarr; Main Gate</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-grid-2col">
+                                        <div class="form-field">
+                                            <label for="req-pickup">Pickup Point <span class="required">*</span></label>
+                                            <input type="text" id="req-pickup" class="form-input" placeholder="e.g. Main Gate, Campus Bus Stop" maxlength="150" required>
+                                        </div>
+
+                                        <div class="form-field">
+                                            <label for="req-destination">Destination <span class="required">*</span></label>
+                                            <input type="text" id="req-destination" class="form-input" placeholder="e.g. Science Block, Central Library" maxlength="150" required>
+                                        </div>
+
+                                        <div class="form-field">
+                                            <label for="req-date">Trip Date <span class="required">*</span></label>
+                                            <input type="date" id="req-date" class="form-input" required>
+                                        </div>
+
+                                        <div class="form-field">
+                                            <label for="req-time">Trip Time <span class="required">*</span></label>
+                                            <input type="time" id="req-time" class="form-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 4: Notes -->
+                                <div class="form-section-block">
+                                    <div class="section-title-row">
+                                        <div class="section-step-num">4</div>
+                                        <div>
+                                            <h4>Additional Notes &amp; Special Instructions</h4>
+                                            <p class="section-hint">Provide any specific accessibility notes (optional)</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-field full-width">
+                                        <textarea id="req-notes" class="form-textarea" rows="3" placeholder="e.g. Needs wheelchair with footrest, wait near west entrance ramp..." maxlength="500"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions-footer">
+                                    <button type="button" class="btn btn-outline" onclick="showSection('requests')">Cancel</button>
+                                    <button type="submit" class="btn btn-primary btn-lg" id="submit-request-btn">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                        Confirm &amp; Book Assistance
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. HELPERS SECTION -->
+                <section id="helpers" class="panel-section">
+                    <!-- Helper Summary KPIs -->
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Total Helpers</span>
+                                <div class="kpi-icon-wrap info">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-helpers-total">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">On campus staff roster</span></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Available Now</span>
+                                <div class="kpi-icon-wrap success">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 14 14"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-helpers-avail">0</div>
+                            <div class="kpi-footer"><span class="kpi-trend positive">&#x25CF; Ready for assignments</span></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Active Roster</span>
+                                <div class="kpi-icon-wrap primary">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-helpers-active">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">Currently enabled</span></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Inactive / Off Duty</span>
+                                <div class="kpi-icon-wrap neutral">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-helpers-inactive">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">Deactivated or on leave</span></div>
+                        </div>
+                    </div>
+
+                    <div class="section-toolbar-card">
+                        <div class="toolbar-row">
+                            <div class="toolbar-search">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <input type="text" id="helpers-search" placeholder="Search helpers by name, email, skill..." aria-label="Search helpers">
+                            </div>
+                            <div class="toolbar-filters">
+                                <button class="btn btn-primary" onclick="openAddHelperModal()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Add Helper
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Helpers Table Card -->
+                    <div class="card mt-3">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 70px;">ID</th>
+                                            <th>Helper Profile</th>
+                                            <th>Contact Info</th>
+                                            <th>Certified Skills</th>
+                                            <th>Availability</th>
+                                            <th>Status</th>
+                                            <th class="text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="helpers-body">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. WORKLOAD SECTION -->
+                <section id="workload" class="panel-section">
+                    <!-- Workload Filter Toolbar -->
+                    <div class="section-toolbar-card">
+                        <form id="workload-form" class="workload-toolbar-form">
+                            <div class="workload-inputs-grid">
+                                <div class="filter-group flex-1">
+                                    <label for="wl-helper">Select Helper <span class="required">*</span></label>
+                                    <select id="wl-helper" class="form-select" required>
+                                        <!-- Helper options -->
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="wl-date">Schedule Date <span class="required">*</span></label>
+                                    <input type="date" id="wl-date" class="form-input" required>
+                                </div>
+                                <div class="quick-dates-bar">
+                                    <span class="text-muted text-xs">Quick:</span>
+                                    <button type="button" class="btn btn-xs btn-outline" onclick="setWorkloadDate(0)">Today</button>
+                                    <button type="button" class="btn btn-xs btn-outline active-date" onclick="setWorkloadDate(1)">Tomorrow</button>
+                                    <button type="button" class="btn btn-xs btn-outline" onclick="setWorkloadDate(2)">+2 Days</button>
+                                </div>
+                                <div class="filter-group-action">
+                                    <button type="submit" class="btn btn-primary" id="wl-fetch-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="9 11 12 14 22 4"></polyline>
+                                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                        </svg>
+                                        View Schedule
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Workload Summary Card -->
+                    <div id="wl-summary-card" class="card mt-3">
+                        <div class="card-body">
+                            <div class="workload-header-row">
+                                <div class="wl-helper-info">
+                                    <div class="avatar xl" id="wl-helper-avatar">RK</div>
+                                    <div>
+                                        <h3 id="wl-summary-helper-name">Select a helper</h3>
+                                        <p class="text-muted" id="wl-summary-date-desc">Showing daily dispatch schedule and booking slots</p>
+                                    </div>
+                                </div>
+                                <div class="wl-kpis">
+                                    <div class="wl-kpi-item">
+                                        <span class="wl-kpi-num" id="wl-total-count">0</span>
+                                        <span class="wl-kpi-lbl">Total Bookings</span>
+                                    </div>
+                                    <div class="wl-kpi-item">
+                                        <span class="wl-kpi-num text-primary" id="wl-assigned-count">0</span>
+                                        <span class="wl-kpi-lbl">Assigned</span>
+                                    </div>
+                                    <div class="wl-kpi-item">
+                                        <span class="wl-kpi-num text-success" id="wl-completed-count">0</span>
+                                        <span class="wl-kpi-lbl">Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Visual Timeline Schedule -->
+                            <div class="workload-timeline-wrap mt-4">
+                                <h4 class="timeline-title">Hourly Booking Timeline (60-minute duration slots)</h4>
+                                <div class="timeline-slots-grid" id="timeline-slots-grid">
+                                    <!-- Dynamic visual timeline cards -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workload Detailed Table -->
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Bookings Detail List</h3>
+                            <p class="card-subtitle">Detailed information for helper's bookings on selected date</p>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Request #</th>
+                                            <th>Trip Time</th>
+                                            <th>Requester</th>
+                                            <th>Route</th>
+                                            <th>Type</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="wl-body">
+                                        <tr><td colspan="6" class="text-center text-muted py-4">Click "View Schedule" to inspect helper bookings.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. USERS SECTION -->
+                <section id="users" class="panel-section">
+                    <!-- User Statistics -->
+                    <div class="kpi-grid mb-4">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Total Users</span>
+                                <div class="kpi-icon-wrap info">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                        <path d="M5.5 21a8.5 8.5 0 0 1 13 0"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-users-total">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">All accounts</span></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Students / Users</span>
+                                <div class="kpi-icon-wrap primary">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-users-students">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">Student requesters</span></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Campus Staff</span>
+                                <div class="kpi-icon-wrap success">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-users-staff">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">Department staff</span></div>
+                        </div>
+
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <span class="kpi-title">Administrators</span>
+                                <div class="kpi-icon-wrap warning">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="kpi-value" id="stat-users-admins">0</div>
+                            <div class="kpi-footer"><span class="kpi-meta">System coordinators</span></div>
+                        </div>
+                    </div>
+
+                    <div class="section-toolbar-card">
+                        <div class="toolbar-row">
+                            <div class="toolbar-search">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <input type="text" id="users-search" placeholder="Search users by name, email, phone..." aria-label="Search users">
+                            </div>
+                            <div class="toolbar-filters">
+                                <button class="btn btn-primary" onclick="openAddUserModal()">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Add User
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Users Table Card -->
+                    <div class="card mt-3">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 70px;">ID</th>
+                                            <th>User Profile</th>
+                                            <th>Email Address</th>
+                                            <th>Phone Number</th>
+                                            <th>Campus Role</th>
+                                            <th>Status</th>
+                                            <th class="text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="users-body">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. API DOCUMENTATION SECTION -->
+                <section id="api-docs" class="panel-section">
+                    <div class="api-docs-header-card">
+                        <div class="api-docs-intro">
+                            <h2>REST API Reference &amp; Endpoints</h2>
+                            <p class="text-muted">Direct interface to TransitAssist Spring Boot 3.3.5 backend controllers. All business validation rules are strictly enforced in the service layer.</p>
+                        </div>
+                        <div class="api-docs-actions">
+                            <a href="/swagger-ui.html" target="_blank" rel="noopener" class="btn btn-primary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                Open Interactive Swagger UI
+                            </a>
+                            <a href="/v3/api-docs" target="_blank" rel="noopener" class="btn btn-outline">
+                                View OpenAPI JSON
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="api-groups-list">
+                        <!-- Group 1: Assistance Requests -->
+                        <div class="api-group-card">
+                            <div class="api-group-header">
+                                <div class="api-group-tag">CORE CONTROLLER</div>
+                                <h3>Assistance Requests API</h3>
+                                <p class="text-muted"><code>/api/assistance-requests</code> &mdash; Full lifecycle dispatch and scheduling</p>
+                            </div>
+                            <div class="api-endpoints-list">
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge post">POST</span>
+                                    <code class="endpoint-path">/api/assistance-requests</code>
+                                    <span class="endpoint-desc">Create assistance request (201 Created)</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/assistance-requests[?status=&amp;userId=&amp;date=]</code>
+                                    <span class="endpoint-desc">List requests with optional filters</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/assistance-requests/{id}</code>
+                                    <span class="endpoint-desc">Fetch single request details</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge put">PUT</span>
+                                    <code class="endpoint-path">/api/assistance-requests/{id}</code>
+                                    <span class="endpoint-desc">Partial update of route/time (only before completion)</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge post">POST</span>
+                                    <code class="endpoint-path">/api/assistance-requests/{id}/assign/{helperId}</code>
+                                    <span class="endpoint-desc">Assign helper &mdash; enforces 60m overlap check (409 Conflict)</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge post">POST</span>
+                                    <code class="endpoint-path">/api/assistance-requests/{id}/complete</code>
+                                    <span class="endpoint-desc">Mark trip as COMPLETED (requires assigned helper)</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge post">POST</span>
+                                    <code class="endpoint-path">/api/assistance-requests/{id}/cancel</code>
+                                    <span class="endpoint-desc">Cancel request (rejected if already COMPLETED)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Group 2: Helpers -->
+                        <div class="api-group-card">
+                            <div class="api-group-header">
+                                <div class="api-group-tag">STAFF DISPATCH</div>
+                                <h3>Helpers &amp; Workload API</h3>
+                                <p class="text-muted"><code>/api/helpers</code> &mdash; Helper roster and daily schedule</p>
+                            </div>
+                            <div class="api-endpoints-list">
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge post">POST</span>
+                                    <code class="endpoint-path">/api/helpers</code>
+                                    <span class="endpoint-desc">Register new transit helper</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/helpers</code>
+                                    <span class="endpoint-desc">List all helpers and certified skills</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/helpers/{id}</code>
+                                    <span class="endpoint-desc">Get helper profile by ID</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge delete">DELETE</span>
+                                    <code class="endpoint-path">/api/helpers/{id}</code>
+                                    <span class="endpoint-desc">Soft deactivate helper (204 No Content)</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/helpers/{id}/workload?date=YYYY-MM-DD</code>
+                                    <span class="endpoint-desc">Get daily workload bookings &amp; summary counts</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Group 3: Users -->
+                        <div class="api-group-card">
+                            <div class="api-group-header">
+                                <div class="api-group-tag">USER MANAGEMENT</div>
+                                <h3>Campus Users API</h3>
+                                <p class="text-muted"><code>/api/users</code> &mdash; Student, faculty, and coordinator directory</p>
+                            </div>
+                            <div class="api-endpoints-list">
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge post">POST</span>
+                                    <code class="endpoint-path">/api/users</code>
+                                    <span class="endpoint-desc">Create campus user profile (201 Created)</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/users</code>
+                                    <span class="endpoint-desc">List all registered users and roles</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge get">GET</span>
+                                    <code class="endpoint-path">/api/users/{id}</code>
+                                    <span class="endpoint-desc">Get user by ID</span>
+                                </div>
+                                <div class="api-endpoint-row">
+                                    <span class="http-badge delete">DELETE</span>
+                                    <code class="endpoint-path">/api/users/{id}</code>
+                                    <span class="endpoint-desc">Deactivate user account (204 No Content)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- App Footer -->
+            <footer class="app-footer">
+                <div class="footer-content">
+                    <span>TransitAssist &mdash; Accessible Transit Assistance Booking System</span>
+                    <span class="footer-sep">&bull;</span>
+                    <span>Java 21 &bull; Spring Boot 3.3.5 &bull; MySQL 8</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <!-- ============================================== -->
+    <!-- MODALS LAYER -->
+    <!-- ============================================== -->
+
+    <!-- Modal Backdrop Overlay -->
+    <div class="modal-backdrop" id="modal-backdrop" onclick="closeActiveModal()"></div>
+
+    <!-- 1. REQUEST DETAILS & TIMELINE MODAL -->
+    <div class="modal-dialog" id="modal-request-details" role="dialog" aria-modal="true" aria-labelledby="modal-details-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-tag" id="modal-req-id-badge">Request #0</span>
+                    <h3 class="modal-title" id="modal-details-title">Assistance Request Details</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeActiveModal()" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Visual Stepper Progress Bar -->
+                <div class="stepper-wrap">
+                    <div class="stepper-track" id="modal-stepper-track">
+                        <div class="step-node" id="step-node-1">
+                            <div class="step-circle">1</div>
+                            <span class="step-label">REQUESTED</span>
+                        </div>
+                        <div class="step-line" id="step-line-1"></div>
+                        <div class="step-node" id="step-node-2">
+                            <div class="step-circle">2</div>
+                            <span class="step-label">ASSIGNED</span>
+                        </div>
+                        <div class="step-line" id="step-line-2"></div>
+                        <div class="step-node" id="step-node-3">
+                            <div class="step-circle">3</div>
+                            <span class="step-label">COMPLETED</span>
+                        </div>
+                    </div>
+                    <div id="cancelled-banner" class="cancelled-alert hidden">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        <span>This request was CANCELLED and is closed.</span>
+                    </div>
+                </div>
+
+                <!-- 2-Column Info Grid -->
+                <div class="details-info-grid">
+                    <div class="detail-box">
+                        <span class="detail-label">Requester User</span>
+                        <div class="detail-val-main" id="modal-req-user">-</div>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="detail-label">Assistance Type</span>
+                        <div class="detail-val-main" id="modal-req-type">-</div>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="detail-label">Trip Route</span>
+                        <div class="detail-val-main" id="modal-req-route">-</div>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="detail-label">Scheduled Date &amp; Time</span>
+                        <div class="detail-val-main" id="modal-req-schedule">-</div>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="detail-label">Assigned Helper</span>
+                        <div class="detail-val-main" id="modal-req-helper"><em>None assigned</em></div>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="detail-label">Current Status</span>
+                        <div id="modal-req-status-badge">-</div>
+                    </div>
+
+                    <div class="detail-box full-span">
+                        <span class="detail-label">Additional Accessibility Notes</span>
+                        <p class="detail-notes-text" id="modal-req-notes">No additional notes provided.</p>
+                    </div>
+
+                    <div class="detail-box full-span meta-row">
+                        <span class="detail-label">Created At: <span id="modal-req-created" class="text-normal">-</span></span>
+                        <span class="detail-label">Last Updated: <span id="modal-req-updated" class="text-normal">-</span></span>
+                    </div>
+                </div>
+
+                <!-- Helper Quick Assign in Modal -->
+                <div class="modal-assign-box" id="modal-assign-section">
+                    <label for="modal-helper-select">Assign / Reassign Helper:</label>
+                    <div class="assign-input-row">
+                        <select id="modal-helper-select" class="form-select">
+                            <!-- Dynamic helper options -->
+                        </select>
+                        <button class="btn btn-primary" id="modal-assign-btn">Assign Helper</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="modal-details-actions">
+                <!-- Dynamic contextual action buttons injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. ADD HELPER MODAL -->
+    <div class="modal-dialog" id="modal-add-helper" role="dialog" aria-modal="true" aria-labelledby="modal-helper-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="modal-helper-title">Register New Helper</h3>
+                    <p class="text-muted text-xs">Add a new accessibility assistant to campus dispatch roster</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeActiveModal()" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="helper-form" novalidate>
+                <div class="modal-body">
+                    <div class="form-field mb-3">
+                        <label for="helper-name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="helper-name" class="form-input" placeholder="e.g. Suresh Babu" maxlength="100" required>
+                    </div>
+                    <div class="form-field mb-3">
+                        <label for="helper-email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="helper-email" class="form-input" placeholder="e.g. suresh.babu@example.com" maxlength="150" required>
+                    </div>
+                    <div class="form-field mb-3">
+                        <label for="helper-phone">Phone Number</label>
+                        <input type="text" id="helper-phone" class="form-input" placeholder="e.g. 9123456789 (7-15 digits)">
+                    </div>
+                    <div class="form-field mb-3">
+                        <label>Certified Assistance Skills <span class="required">*</span></label>
+                        <div class="checkbox-skills-grid">
+                            <label class="custom-checkbox-card">
+                                <input type="checkbox" name="skill" value="WHEELCHAIR">
+                                <span class="chk-label">&#x267F; Wheelchair Assistance</span>
+                            </label>
+                            <label class="custom-checkbox-card">
+                                <input type="checkbox" name="skill" value="ESCORT">
+                                <span class="chk-label">&#x1F441; Escort &amp; Guiding</span>
+                            </label>
+                            <label class="custom-checkbox-card">
+                                <input type="checkbox" name="skill" value="MOBILITY_SUPPORT">
+                                <span class="chk-label">&#x1F9AF; Mobility Support</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeActiveModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-helper-btn">Save Helper</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. ADD USER MODAL -->
+    <div class="modal-dialog" id="modal-add-user" role="dialog" aria-modal="true" aria-labelledby="modal-user-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="modal-user-title">Add Campus User</h3>
+                    <p class="text-muted text-xs">Create a registered profile for transit assistance bookings</p>
+                </div>
+                <button class="modal-close-btn" onclick="closeActiveModal()" aria-label="Close modal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="user-form" novalidate>
+                <div class="modal-body">
+                    <div class="form-field mb-3">
+                        <label for="user-name">Full Name <span class="required">*</span></label>
+                        <input type="text" id="user-name" class="form-input" placeholder="e.g. Ananya Rao" maxlength="100" required>
+                    </div>
+                    <div class="form-field mb-3">
+                        <label for="user-email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="user-email" class="form-input" placeholder="e.g. ananya.rao@example.com" maxlength="150" required>
+                    </div>
+                    <div class="form-field mb-3">
+                        <label for="user-phone">Phone Number</label>
+                        <input type="text" id="user-phone" class="form-input" placeholder="e.g. 9876504321 (7-15 digits)">
+                    </div>
+                    <div class="form-field mb-3">
+                        <label for="user-role">Campus Role <span class="required">*</span></label>
+                        <select id="user-role" class="form-select" required>
+                            <option value="USER">Student / General User (USER)</option>
+                            <option value="STAFF">Campus Staff / Faculty (STAFF)</option>
+                            <option value="ADMIN">Transportation Admin (ADMIN)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeActiveModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-user-btn">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
